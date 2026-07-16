@@ -1,0 +1,129 @@
+:root {
+  --bg: #eef1f6;
+  --surface: #fff;
+  --border: #e4e8ef;
+  --text: #101828;
+  --a: #2563eb;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* palco + moldura do "dispositivo" (mobile-first, mas centraliza no desktop) */
+.stage {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 12px;
+}
+
+.device {
+  width: 100%;
+  max-width: 430px;
+  height: 900px;
+  max-height: 92vh;
+  border-radius: 40px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+}
+
+/* em telas realmente pequenas, ocupa tudo (comportamento de app instalado) */
+@media (max-width: 480px) {
+  .stage { padding: 0; }
+  .device { max-width: 100%; height: 100vh; max-height: none; border-radius: 0; border: none; }
+}
+
+::-webkit-scrollbar { width: 0; height: 0; }
+
+/* foco dos campos usando a cor do provedor */
+.fld:focus {
+  border-color: var(--focus, var(--a)) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus, var(--a)) 18%, transparent);
+}
+
+input, textarea { font-family: inherit; }
+
+.btn-a { transition: transform 0.1s; }
+.btn-a:active { transform: scale(0.97); }
+.btn-a:disabled { opacity: 0.7; cursor: default; }
+
+.spin { animation: spin 1s linear infinite; }
+
+/* toast global */
+.toast {
+  position: fixed;
+  bottom: 96px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  background: var(--text);
+  color: var(--bg);
+  padding: 11px 18px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  animation: toastIn 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  white-space: nowrap;
+}
+
+/* bottom sheet */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 40;
+  display: flex;
+  align-items: flex-end;
+  animation: fade 0.2s;
+}
+.sheet {
+  border-top-left-radius: 28px;
+  border-top-right-radius: 28px;
+  width: 100%;
+  max-height: 90%;
+  overflow-y: auto;
+  padding: 10px 20px 28px;
+  animation: slideUp 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.grabber {
+  width: 40px;
+  height: 4px;
+  border-radius: 4px;
+  margin: 6px auto 16px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse { 0% { transform: scale(0.6); opacity: 0.9; } 100% { transform: scale(1.6); opacity: 0; } }
+@keyframes rise { from { transform: translateY(14px) scale(0.9); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes fadeUp { from { transform: translateY(12px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes toastIn { from { transform: translate(-50%, 12px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; }
+}
