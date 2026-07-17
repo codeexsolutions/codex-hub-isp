@@ -29,6 +29,7 @@ export default function Dashboard() {
   const nav = useNavigate();
 
   const aberta = cliente.ultimasFaturas.find((f) => statusFatura(f, new Date()) === "aberta");
+  const statuscontrato = cliente.isBloqueado ? "Bloqueado" : "Ativo";
   const plano = cliente.plano[0];
   const { consumos } = cliente;
   const chartData = consumos.consumoMensalLabels.map((l, i) => ({
@@ -69,11 +70,6 @@ const abrirOferta = (item) => {
     showToast(item.titulo || item.nome || "Abrindo…");
   }
 };
-  // abre o link se houver; caso contrário, sinaliza a ação (demo)
-  /* const abrirOferta = (item) => {
-    if (item.link) window.open(item.link, "_blank", "noopener");
-    else showToast(item.titulo || item.nome || "Abrindo…");
-  }; */
 
   return (
     <div style={{ padding: "18px 18px 28px", display: "flex", flexDirection: "column", gap: 16 }}>
@@ -83,16 +79,20 @@ const abrirOferta = (item) => {
       {/* status conexão */}
       <div style={{ ...card(t), padding: 0, overflow: "hidden" }}>
         <div style={{ padding: "16px 18px", display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ width: 44, height: 44, borderRadius: 14, background: hexA(STATUS.ok, 0.14), display: "grid", placeItems: "center" }}>
-            <Wifi size={22} color={STATUS.ok} />
+          <div style={{ width: 44, height: 44, borderRadius: 14, background: statuscontrato === 'Ativo' ? hexA(STATUS.ok, 0.14) : hexA(STATUS.danger, 0.14), display: "grid", placeItems: "center" }}>
+            <Wifi size={22} color={statuscontrato === 'Ativo' ?  STATUS.ok : STATUS.danger} />
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 12, color: t.sub }}>Sua conexão</div>
-            <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontWeight: 700, fontSize: 15.5, color: t.text }}>Ativa e estável</div>
+            <div style={{ fontSize: 12, color: t.sub }}>Seu contrato</div>
+            <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontWeight: 700, fontSize: 15.5, color: t.text }}>{statuscontrato}</div>
           </div>
-          <span style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 12, fontWeight: 700, color: STATUS.ok, background: hexA(STATUS.ok, 0.12), padding: "5px 10px", borderRadius: 20 }}>
+          {statuscontrato === 'Ativo' ? <span style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 12, fontWeight: 700, color: STATUS.ok, background: hexA(STATUS.ok, 0.12), padding: "5px 10px", borderRadius: 20 }}>
             <span style={{ width: 7, height: 7, borderRadius: 4, background: STATUS.ok }} /> Online
-          </span>
+          </span> :
+          <span style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 12, fontWeight: 700, color: STATUS.danger, background: hexA(STATUS.danger, 0.12), padding: "5px 10px", borderRadius: 20 }}>
+            <span style={{ width: 7, height: 7, borderRadius: 4, background: STATUS.danger }} /> Offline
+          </span> 
+          }
         </div>
         <div style={{ display: "flex", borderTop: `1px solid ${t.border}` }}>
           <MiniStat icon={<ArrowDownRight size={15} color={A} />} label="Download" value={`${downAtual} GB`} />
