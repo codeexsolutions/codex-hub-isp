@@ -48,7 +48,7 @@ const resolveImageUrl = (url) => {
   if (match && url.includes("drive.google.com")) {
     const id = match[1];
     // thumbnail é o endpoint mais confiável para embutir imagem
-    return `https://drive.google.com/thumbnail?id=${id}&sz=w1600`;
+    return `https://drive.google.com/thumbnail?id=${id}&sz=w2048`;
     // alternativa: return `https://lh3.googleusercontent.com/d/${id}=w1600`;
   }
 
@@ -68,10 +68,14 @@ const resolveImageUrl = (url) => {
     <div
       style={{
         display: "flex",
-        gap: 14,
+        gap: 18,
         overflowX: "auto",
+        paddingBottom: 8,
         scrollSnapType: "x mandatory",
-        paddingBottom: 2,
+        paddingInline: 16,
+        scrollbarWidth: "none",
+        msOverflowStyle: "none",
+        borderRadius: 24
       }}
     >
         
@@ -84,74 +88,77 @@ const resolveImageUrl = (url) => {
         if (hasImage(item)) {
           return (
             <div
-              key={item.id ?? i}
-              onClick={() => onOpen?.(item)}
+            key={item.id ?? i}
+            onClick={() => onOpen?.(item)}
+            style={{
+              width: "88vw",
+              maxWidth: 360,
+              minWidth: "88vw",
+              aspectRatio: "9 / 16",
+              flexShrink: 0,
+              scrollSnapAlign: "center",
+              cursor: "pointer",
+              borderRadius: 24,
+              overflow: "hidden",
+              position: "relative",
+              background: t.surface,
+              boxShadow: "0 12px 30px rgba(0,0,0,.18)",
+            }}
+          >
+            <img
+              src={imagem}
+              alt={item.titulo}
+              loading="lazy"
               style={{
-                minWidth: "100%",
-                scrollSnapAlign: "center",
-                cursor: "pointer",
-                borderRadius: 22,
-                overflow: "hidden",
-                position: "relative",
-                aspectRatio: "16 / 7",
-                background: t.surface,
-                boxShadow: "0 12px 28px rgba(0,0,0,.12)",
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                display: "block",
+              }}
+            />
+
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background:
+                  "linear-gradient(to top, rgba(0,0,0,.75), rgba(0,0,0,.15), transparent)",
+              }}
+            />
+
+            <div
+              style={{
+                position: "absolute",
+                left: 14,
+                right: 14,
+                bottom: 14,
+                color: "#fff",
               }}
             >
-              <img
-                src={imagem}
-                alt={item.titulo}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  display: "block",
-                }}
-              />
-
               <div
                 style={{
-                  position: "absolute",
-                  inset: 0,
-                  background:
-                    "linear-gradient(to top, rgba(0,0,0,.75), rgba(0,0,0,.05))",
-                }}
-              />
-
-              <div
-                style={{
-                  position: "absolute",
-                  left: 18,
-                  right: 18,
-                  bottom: 18,
-                  color: "#fff",
+                  fontSize: 18,
+                  fontWeight: 800,
+                  lineHeight: 1.2,
                 }}
               >
+                {item.titulo}
+              </div>
+
+              {item.descricao && (
                 <div
                   style={{
-                    fontSize: 22,
-                    fontWeight: 800,
-                    lineHeight: 1.15,
-                    fontFamily: "'Plus Jakarta Sans',sans-serif",
+                    marginTop: 6,
+                    fontSize: 12,
+                    lineHeight: 1.4,
+                    opacity: 0.9,
                   }}
                 >
-                  {item.titulo}
+                  {item.descricao}
                 </div>
-
-                {item.descricao && (
-                  <div
-                    style={{
-                      marginTop: 6,
-                      fontSize: 13,
-                      opacity: 0.9,
-                      lineHeight: 1.45,
-                    }}
-                  >
-                    {item.descricao}
-                  </div>
-                )}
-              </div>
+              )}
             </div>
+          </div>
           );
         }
 
