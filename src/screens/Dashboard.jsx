@@ -58,7 +58,7 @@ export default function Dashboard() {
   /^https?:\/\//i.test(url) ? url : `https://${url}`;
 
 const abrirOferta = (item) => {
-  const destino = item.link || "";
+  const destino = item.link_acao || "";
 
   if (destino.startsWith("/")) {
     // rota INTERNA do app -> navega sem sair do PWA
