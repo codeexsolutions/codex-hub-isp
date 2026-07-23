@@ -54,7 +54,7 @@ export default function ProviderCode() {
           value={code}
           onChange={(e) => setCode(e.target.value.replace(/[^0-9A-Za-z]/g, ""))}
           onKeyDown={(e) => e.key === "Enter" && entrar()}
-          placeholder="Ex.: 1001"
+          placeholder="Ex.: 1"
           style={{ ...inputStyle(t), marginTop: 8, letterSpacing: 4, fontSize: 18, textAlign: "center", fontWeight: 600 }}
         />
         {erro && <div style={errStyle}><AlertCircle size={14} /> {erro}</div>}
@@ -64,12 +64,12 @@ export default function ProviderCode() {
         </button>
 
         <div style={{ marginTop: 20, fontSize: 12, color: t.sub, textAlign: "center" }}>
-          Códigos demo:&nbsp;
+      {/*     Códigos demo:&nbsp;
           {["1001", "2002", "3003"].map((c) => (
             <button key={c} onClick={() => setCode(c)} style={{ background: "none", border: "none", color: "#2563EB", fontWeight: 600, cursor: "pointer", padding: "0 4px", fontSize: 12 }}>
               {c}
             </button>
-          ))}
+          ))} */}
         </div>
       </div>
 
