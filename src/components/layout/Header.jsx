@@ -44,26 +44,26 @@ export default function Header() {
         >
           {provider.logo_url ? (
            <>
-      <img
-        src={resolveImageUrl(provider.logo_url)}
-        alt={provider.nome}
-        style={{
-          width: "100%",
-          height: "100%",
-          objectFit: "contain",
-        }}
-        
-        onError={(e) => {
-          <span
-          style={{
-            fontSize: 34,
-            color: "#fff",
-          }}
-          >
-        {iniciais(provider.nome)}
-      </span>// opcional
-        }}
-        />
+            <img
+              src={resolveImageUrl(provider.logo_url)}
+              alt={provider.nome}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+              }}
+              
+              onError={(e) => {
+                <span
+                style={{
+                  fontSize: 34,
+                  color: "#fff",
+                }}
+                >
+              {iniciais(provider.nome)}
+            </span>// opcional
+              }}
+              />
     </>
           ) : (
             <span style={{ color: "#fff", fontSize: 20 }}>{iniciais(provider.nome)}</span>

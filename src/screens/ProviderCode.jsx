@@ -4,6 +4,9 @@ import { Gauge, ArrowRight, AlertCircle, RefreshCw } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 import { getProvider } from "../api/client";
 import { inputStyle, btnPrimary, errStyle } from "../components/ui/styles";
+import { carregarManifest } from "../utils/manifest";
+
+
 
 export default function ProviderCode() {
   const { t, setProvider } = useTheme();
@@ -13,19 +16,36 @@ export default function ProviderCode() {
   const [erro, setErro] = useState("");
 
   const entrar = async () => {
-    if (!code.trim()) { setErro("Informe o código do provedor."); return; }
-    setErro(""); setLoading(true);
-    try {
-      const p = await getProvider(code.trim());
-      setProvider(p);
-      nav("/login");
-    } catch {
-      setErro("Não foi possível localizar o provedor. Tente novamente.");
-    } finally {
-      setLoading(false);
-    }
-  };
 
+     if (!code.trim()) {
+        setErro("Informe o código do provedor.");
+        return;
+    }
+
+    setErro("");
+    setLoading(true);
+
+    try {
+
+        const p = await getProvider(code.trim());
+
+        carregarManifest(p);
+
+        setProvider(p);
+
+        nav("/login");
+
+    } catch {
+
+        setErro("Não foi possível localizar o provedor.");
+
+    } finally {
+
+        setLoading(false);
+
+    }
+};
+  
   return (
     <div style={{ flex: 1, display: "flex", flexDirection: "column", padding: "64px 28px 32px", background: t.bg }}>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>

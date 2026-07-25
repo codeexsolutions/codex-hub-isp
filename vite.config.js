@@ -10,7 +10,7 @@ export default defineConfig({
       includeAssets: ["favicon.svg", "icons/apple-touch-icon.png"],
       // OBS.: para white-label real, gere um manifest por provedor no backend
       // (ex.: provedor.seudominio.com/manifest.webmanifest) e aponte o <link> aqui.
-      manifest: {
+     /*  manifest: {
         name: "Central do Assinante",
         short_name: "Central",
         description: "Central do Assinante — HUB ISP",
@@ -25,7 +25,7 @@ export default defineConfig({
           { src: "icons/pwa-512x512.png", sizes: "512x512", type: "image/png" },
           { src: "icons/pwa-maskable-512x512.png", sizes: "512x512", type: "image/png", purpose: "maskable" }
         ]
-      },
+      }, */
       workbox: {
         globPatterns: ["**/*.{js,css,html,svg,png,woff2}"],
         runtimeCaching: [

@@ -267,3 +267,9 @@ export async function enviarAvaliacao({cliente, nota, mensagem, codigoProvedor, 
   });
   return data;
 }
+
+export async function obterManifest({codigoProvedor}){
+
+    const { data } = await request(`/provedores/manifest/${codigoProvedor}`);
+    return data;
+}
