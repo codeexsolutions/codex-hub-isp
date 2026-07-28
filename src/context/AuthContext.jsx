@@ -1,5 +1,6 @@
 import { createContext, useContext, useMemo, useState } from "react";
 import { loginCliente, getContratoCliente } from "../api/client";
+import { registrarPushNotification } from "../api/services/pushNotification";
 
 const AuthCtx = createContext(null);
 export const useAuth = () => useContext(AuthCtx);
@@ -15,11 +16,18 @@ export function AuthProvider({ children }) {
   const [cliente, setCliente] = useState(loadCliente);
   const [token, setToken] = useState(loadToken);
 
-  const aplicarCliente = (data) => {
+  const aplicarCliente = async (data) => {
+
     setCliente(data.dadosCliente);
     sessionStorage.setItem("ca:cliente", JSON.stringify(data.dadosCliente));
     setToken(data.dadosToken);
     sessionStorage.setItem("ca:token", JSON.stringify(data.dadosToken))
+
+    try {
+      await registrarPushNotification(data);
+    } catch (error) {
+      console.error("Erro ao registrar Push Notification:", error);
+    }
     return data;
   };
 
@@ -28,15 +36,16 @@ export function AuthProvider({ children }) {
   const entrar = async ({ codigoProvedor, cpfCnpj }) => {
     const res = await loginCliente({ codigoProvedor, cpfCnpj });
 
-    // caso a API devolva uma LISTA de contratos
+    const contratos = res?.dadosToken.multiploCadastro
+      ? res.dadosToken.contratos
+      : null;
 
-    const contratos = res?.dadosToken.multiploCadastro ? res.dadosToken.contratos : null; 
-
-    if (contratos) 
+    if (contratos)
       return { contratos };
 
-    // caso devolva o cliente/token -> acessa direto
-    return { cliente: aplicarCliente(res) };
+    const cliente = await aplicarCliente(res);
+
+    return { cliente };
 
     throw new Error(res?.message || "Não foi possível entrar.");
   };
@@ -45,8 +54,7 @@ export function AuthProvider({ children }) {
   const selecionarContrato = async ({ codigoProvedor, cpfCnpj, contratoId }) => {
     const resContrato = await getContratoCliente({ codigoProvedor, cpfCnpj, contratoId });
     if (resContrato?.dadosToken && resContrato?.dadosCliente) {
-      //const token = await loginCliente(codigoProvedor, cpfCnpj);
-      return aplicarCliente(resContrato);
+      return await aplicarCliente(resContrato);
     }
     throw new Error(res?.message || "Não foi possível carregar o contrato.");
   };

@@ -2,6 +2,7 @@ import { PROVIDERS, DEFAULT_PROVIDER } from "../data/providers";
 import { MOCK_CLIENTE, MOCK_CHAMADOS, MOCK_CONTRATOS } from "../data/mockCliente";
 import { MOCK_BANNERS, MOCK_PARCERIAS } from "../data/marketing";
 import { soDigitos } from "../utils/format";
+import { registrarPushNotification } from "./services/pushNotification";
 
 const BASE = String(import.meta.VITE_USE_NET ?? "true") ? import.meta.env.VITE_API_URL_NET : import.meta.env.VITE_API_URL;
 const USE_MOCK = String(import.meta.env.VITE_USE_MOCK ?? "true") === "true";
@@ -9,7 +10,7 @@ const MOCK_MULTICONTRATO = String(import.meta.env.VITE_MOCK_MULTICONTRATO ?? "tr
 
 const delay = (ms) => new Promise((r) => setTimeout(r, ms));
 
-async function request(path, options = {}) {
+export async function request(path, options = {}) {
   const res = await fetch(`${BASE}${path}`, {
     headers: { "Content-Type": "application/json", "Accept":"/", ...(options.headers || {}) },
     ...options,
@@ -61,19 +62,8 @@ export async function loginCliente({ codigoProvedor, cpfCnpj }) {
   })
 
   token.data.cpfCnpj = cpfCnpj;
-  
-
-  return await ObterDadosCliente(token);
-
- /*  const cliente = await request(`/dados-cliente`, {
-    method: "POST",
-    body: JSON.stringify(token.data),
-  });
-  console.log(cliente.data)
-  return {
-    dadosToken: token.data,
-    dadosCliente: cliente.data
-  } */
+  const dados =  await ObterDadosCliente(token);
+  return dados;
 
 }
 
