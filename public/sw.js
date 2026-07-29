@@ -10,13 +10,16 @@ self.addEventListener("activate", () => {
 self.addEventListener("push", (event) => {
 
     const data = event.data.json();
-  console.log(data);
-    event.waitUntil(
-        self.registration.showNotification(data.title, {
-            body: data.body,
-            icon: "/logo192.png"
-        })
 
-    );
+    const options = {
+        body: data.body,
+        icon: data.icon,
+        image: data.image,
+        badge: data.badge,
+        data: data.data,
+        actions: data.actions
+    };
+
+    event.waitUntil(self.registration.showNotification(data.title, options) );
 
 });
