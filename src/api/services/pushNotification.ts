@@ -55,7 +55,7 @@ export async function registrarPushNotification(dados:any) {
             auth: auth ? arrayBufferToBase64(auth) : ""
         }
     };
-
+    
     await request("/notificacoes/salvar", {
         method: "POST",
         headers: {
