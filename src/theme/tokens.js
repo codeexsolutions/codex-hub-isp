@@ -1,4 +1,6 @@
 // Tokens neutros do "chrome" do app. O accent vem do provedor (white-label).
+
+
 export const buildTokens = (dark) =>
   dark
     ? { bg: "#0B0F17", surface: "#141A24", surface2: "#1C2431", border: "#26303F", text: "#EAF0F7", sub: "#8A97A8", inputBg: "#1C2431" }
