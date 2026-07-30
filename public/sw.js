@@ -1,9 +1,13 @@
-self.addEventListener("install", () => {
-    console.log("Service Worker instalado");
-});
+self.addEventListener("push", (event) => {
+    if (event.data) {
+        const data = event.data.json();
+        const options = {
+            body: data.body,
+            data: data.data
+        };
 
-self.addEventListener("activate", () => {
-    console.log("Service Worker ativo");
+        event.waitUntil(self.registration.showNotification(data.title || "", options));
+    }
 });
 
 self.addEventListener("notificationclick", (event) => {
@@ -16,33 +20,29 @@ self.addEventListener("notificationclick", (event) => {
             type: "window",
             includeUncontrolled: true
         }).then((clientList) => {
-            if (clientList.length > 0) {
-                // Se já houver uma janela aberta, foca nela e navega para a URL
-                const client = clientList[0];
-                client.focus();
-                return client.navigate(url);
-            } else {
-                // Se não houver janela aberta, abre uma nova
-                return clients.openWindow(url);
-            }
+            // Verifica se o usuário está autenticado
+            return clients.openWindow('/login').then(client => {
+                return client.postMessage({
+                    type: 'CHECK_AUTH',
+                    url: url
+                });
+            });
         })
     );
 });
 
+// Ouve as mensagens enviadas pela página de login
+self.addEventListener('message', (event) => {
+    if (event.data.type === 'AUTH_STATUS') {
+        const isAuthenticated = event.data.isAuthenticated;
+        const url = event.data.url;
 
-self.addEventListener("push", (event) => {
-
-    const data = event.data.json();
-
-    const options = {
-        body: data.body,
-        icon: data.icon,
-        image: data.image,
-        badge: data.badge,
-        data: data.data,
-        actions: data.actions
-    };
-
-    event.waitUntil(self.registration.showNotification(data.title, options) );
-
+        if (isAuthenticated) {
+            // Se o usuário estiver autenticado, abre a URL
+            clients.openWindow(url);
+        } else {
+            // Se o usuário não estiver autenticado, mantém na página de login
+            console.log('Usuário não autenticado. Permanecendo na página de login.');
+        }
+    }
 });
