@@ -16,6 +16,16 @@ self.addEventListener("notificationclick", (event) => {
     const url = event.notification.data?.url || "/";
 
     event.waitUntil(
+        clients.openWindow(url)
+    );
+});
+
+/* self.addEventListener("notificationclick", (event) => {
+    event.notification.close();
+
+    const url = event.notification.data?.url || "/";
+
+    event.waitUntil(
         clients.matchAll({
             type: "window",
             includeUncontrolled: true
@@ -29,7 +39,7 @@ self.addEventListener("notificationclick", (event) => {
             });
         })
     );
-});
+}); */
 
 // Ouve as mensagens enviadas pela página de login
 self.addEventListener('message', (event) => {
