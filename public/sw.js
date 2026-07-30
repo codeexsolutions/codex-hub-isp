@@ -16,15 +16,15 @@ self.addEventListener("notificationclick", (event) => {
             type: "window",
             includeUncontrolled: true
         }).then((clientList) => {
-
-            for (const client of clientList) {
-                if ("focus" in client) {
-                    client.navigate(url);
-                    return client.focus();
-                }
+            if (clientList.length > 0) {
+                // Se já houver uma janela aberta, foca nela e navega para a URL
+                const client = clientList[0];
+                client.focus();
+                return client.navigate(url);
+            } else {
+                // Se não houver janela aberta, abre uma nova
+                return clients.openWindow(url);
             }
-
-            return clients.openWindow(url);
         })
     );
 });
