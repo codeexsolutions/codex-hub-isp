@@ -10,17 +10,8 @@ self.addEventListener("push", (event) => {
     }
 });
 
+
 self.addEventListener("notificationclick", (event) => {
-    event.notification.close();
-
-    const url = event.notification.data?.url || "/";
-
-    event.waitUntil(
-        clients.openWindow(url)
-    );
-});
-
-/* self.addEventListener("notificationclick", (event) => {
     event.notification.close();
 
     const url = event.notification.data?.url || "/";
@@ -29,17 +20,23 @@ self.addEventListener("notificationclick", (event) => {
         clients.matchAll({
             type: "window",
             includeUncontrolled: true
-        }).then((clientList) => {
-            // Verifica se o usuário está autenticado
-            return clients.openWindow('/login').then(client => {
-                return client.postMessage({
-                    type: 'CHECK_AUTH',
-                    url: url
-                });
-            });
+        }).then((clientsArr) => {
+
+            for (const client of clientsArr) {
+                if (client.url.includes(self.location.origin)) {
+                    client.postMessage({
+                        type: "OPEN_NOTIFICATION",
+                        url
+                    });
+
+                    return client.focus();
+                }
+            }
+
+            return clients.openWindow(url);
         })
     );
-}); */
+});
 
 // Ouve as mensagens enviadas pela página de login
 self.addEventListener('message', (event) => {
