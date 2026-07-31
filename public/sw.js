@@ -14,7 +14,7 @@ self.addEventListener("push", (event) => {
 self.addEventListener("notificationclick", (event) => {
     event.notification.close();
 
-    const url = event.notification.data?.url || "/";
+    const url = event.notification.data?.url || "/login";
 
     event.waitUntil(
         clients.matchAll({
