@@ -50,11 +50,11 @@ export default function ProviderCode() {
     <div style={{ flex: 1, display: "flex", flexDirection: "column", padding: "64px 28px 32px", background: t.bg }}>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <div style={{ width: 46, height: 46, borderRadius: 14, background: "linear-gradient(135deg,#2563EB,#7C3AED)", display: "grid", placeItems: "center", boxShadow: "0 8px 24px rgba(37,99,235,.35)" }}>
-          <Gauge size={24} color="#fff" strokeWidth={2.4} />
+          <img src={"/icons/logo192.png"} width="100%" style={{ width: 46, height: 46, borderRadius: 14, }}/>
         </div>
         <div>
           <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontWeight: 800, fontSize: 22, color: t.text, lineHeight: 1 }}>
-            hub<span style={{ color: "#2563EB" }}>ISP</span>
+            Synk<span style={{ color: "#2563EB" }}>ISP</span>
           </div>
           <div style={{ fontSize: 11, color: t.sub, letterSpacing: 1.5, marginTop: 3 }}>CENTRAL DO ASSINANTE</div>
         </div>
@@ -93,7 +93,7 @@ export default function ProviderCode() {
         </div>
       </div>
 
-      <div style={{ textAlign: "center", fontSize: 11, color: t.sub }}>Codex · HUB ISP · v1.0</div>
+      <div style={{ textAlign: "center", fontSize: 11, color: t.sub }}>Codex · Synk ISP · v1.0</div>
     </div>
   );
 }
