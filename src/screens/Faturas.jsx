@@ -17,7 +17,7 @@ export default function Faturas() {
   const [statusFaturas, setStatusFaturas] = useState(null);
 
   useEffect(() => {
-    console.log("useEffect");
+
     obterFaturas(token);
     
   },[token])
@@ -36,7 +36,6 @@ export default function Faturas() {
     } 
   
   }
-  console.log(faturasx);
 
 
   return (
