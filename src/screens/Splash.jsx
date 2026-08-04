@@ -20,10 +20,10 @@ export default function Splash() {
         </div>
       </div>
       <div style={{ textAlign: "center", animation: "fadeUp 1s .3s both" }}>
-        <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontWeight: 800, fontSize: 32, letterSpacing: 6, color: "#fff" }}>CODEX</div>
-        <div style={{ marginTop: 8, fontSize: 12.5, letterSpacing: 3, color: "#5B8DEF", fontWeight: 600 }}>TECNOLOGIA</div>
+        <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontWeight: 800, fontSize: 32, letterSpacing: 6, color: "#fff" }}>CODEEX</div>
+        <div style={{ marginTop: 8, fontSize: 12.5, letterSpacing: 3, color: "#5B8DEF", fontWeight: 600 }}>SOLUTIONS</div>
       </div>
-      <div style={{ position: "absolute", bottom: 34, fontSize: 11, color: "#3A4658", letterSpacing: 1 }}>powered by Codex</div>
+      <div style={{ position: "absolute", bottom: 34, fontSize: 11, color: "#3A4658", letterSpacing: 1 }}>powered by CodeEx</div>
     </div>
   );
 }

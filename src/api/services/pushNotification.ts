@@ -44,9 +44,13 @@ export async function registrarPushNotification(dados:any) {
     const p256dh = subscription?.getKey("p256dh");
     const auth = subscription?.getKey("auth");
     
+
+    const cpf = dados.dadosToken.cpfCnpj;
+    const codigoProvedor = dados.dadosToken.codigoProvedor
+
     const payload = {
-        cpf: dados.dadosCliente.dadosCadastrais.cpfCnpj,
-        codigoProvedor:dados.dadosToken.codigoProvedor,
+        cpf: cpf === undefined ? dados.dadosCliente.dadosCadastrais.cpfCnpj : cpf,
+        codigoProvedor: codigoProvedor,
         device:"",
         endpoint: subscription?.endpoint,
         expirationTime: subscription?.expirationTime,

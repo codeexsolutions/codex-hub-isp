@@ -46,7 +46,7 @@ export async function getProvider(codigo) {
  *  - data = objeto  -> acesso direto ao dashboard                            *
  *  - data = array   -> tela de escolha de contrato                           *
  * -------------------------------------------------------------------------- */
-export async function loginCliente({ codigoProvedor, cpfCnpj }) {
+export async function loginCliente({ codigoProvedor:codigoProvedor, cpfCnpj }) {
   if (USE_MOCK) {
     await delay(900);
     if (MOCK_MULTICONTRATO) {

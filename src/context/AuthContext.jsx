@@ -36,12 +36,13 @@ export function AuthProvider({ children }) {
   const entrar = async ({ codigoProvedor, cpfCnpj }) => {
     const res = await loginCliente({ codigoProvedor, cpfCnpj });
 
-    const contratos = res?.dadosToken.multiploCadastro
-      ? res.dadosToken.contratos
-      : null;
+    if(res.dadosCliente.multiploCadastro){
+      const contratos = res.dadosCliente.contratos
+      return {contratos}
 
-    if (contratos)
-      return { contratos };
+    }
+/*     if (contratos)
+      return { contratos }; */
 
     const cliente = await aplicarCliente(res);
 
