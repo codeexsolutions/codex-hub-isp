@@ -35,7 +35,7 @@ export function AuthProvider({ children }) {
   // ou { cliente } quando o login já libera o acesso direto (token).
   const entrar = async ({ codigoProvedor, cpfCnpj }) => {
     const res = await loginCliente({ codigoProvedor, cpfCnpj });
-
+    
     if(res.dadosCliente.multiploCadastro){
       const contratos = res.dadosCliente.contratos
       return {contratos}
